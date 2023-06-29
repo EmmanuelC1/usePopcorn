@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import { tempMovieData } from '../data/data.js';
+import { tempMovieData, tempWatchedData } from '../data/data.js';
 
 import NavBar from './navbar/NavBar.jsx';
-import Main from './main/Main.jsx';
-import Search from './navbar/Search.jsx';
 import Logo from './navbar/Logo';
+import Search from './navbar/Search.jsx';
 import NumResults from './navbar/NumResults';
-import ListBox from './main/movieResults/ListBox';
+import Main from './Main.jsx';
+import Box from './Box.jsx';
 import MovieList from './main/movieResults/MovieList.jsx';
-import WatchedBox from './main/watchedMovies/WatchedBox';
+import Summary from './main/watchedMovies/Summary.jsx';
+import WatchedMovieList from './main/watchedMovies/WatchedMovieList.jsx';
 
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
@@ -22,10 +24,14 @@ export default function App() {
       </NavBar>
 
       <Main>
-        <ListBox>
+        <Box>
           <MovieList movies={movies} />
-        </ListBox>
-        <WatchedBox />
+        </Box>
+
+        <Box>
+          <Summary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
       </Main>
     </>
   );
