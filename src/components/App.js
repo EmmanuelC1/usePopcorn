@@ -13,8 +13,7 @@ import WatchedMovieList from './main/watchedMovies/WatchedMovieList.jsx';
 import Loader from './Loader.jsx';
 import ErrorMessage from './ErrorMessage.jsx';
 import MovieDetails from './main/watchedMovies/MovieDetails.jsx';
-
-const KEY = 'fe42d655';
+import API_KEY from '../config/config.js';
 
 export default function App() {
   const [query, setQuery] = useState('inception');
@@ -37,7 +36,7 @@ export default function App() {
           setIsLoading(true);
           setError('');
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+            `http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`
           );
 
           if (!res.ok)
