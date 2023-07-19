@@ -67,6 +67,11 @@ export default function MovieDetails({
     function () {
       if (!title) return;
       document.title = `Movie | ${title}`;
+
+      // Cleanup Function
+      return function () {
+        document.title = 'usePopcorn';
+      };
     },
     [title]
   );
