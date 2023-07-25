@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { tempMovieData, tempWatchedData } from '../data/data.js';
-
 import NavBar from './navbar/NavBar.jsx';
 import Logo from './navbar/Logo';
 import Search from './navbar/Search.jsx';
@@ -18,7 +16,10 @@ import API_KEY from '../config/config.js';
 export default function App() {
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
+  // const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(() =>
+    JSON.parse(localStorage.getItem('watched'))
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [selectedId, setSelectedId] = useState(null);
@@ -36,6 +37,13 @@ export default function App() {
   const handleDeleteWatched = id => {
     setWatched(watched => watched.filter(movie => movie.imdbID !== id));
   };
+
+  useEffect(
+    function () {
+      localStorage.setItem('watched', JSON.stringify(watched));
+    },
+    [watched]
+  );
 
   useEffect(
     function () {
@@ -60,7 +68,6 @@ export default function App() {
           setError('');
         } catch (err) {
           if (err.name !== 'AbortError') {
-            console.log(err.message);
             setError(err.message);
           }
         } finally {
