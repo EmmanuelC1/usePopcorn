@@ -16,7 +16,6 @@ import API_KEY from '../config/config.js';
 export default function App() {
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
-  // const [watched, setWatched] = useState([]);
   const [watched, setWatched] = useState(() =>
     JSON.parse(localStorage.getItem('watched'))
   );
