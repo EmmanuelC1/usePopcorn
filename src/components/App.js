@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import NavBar from './navbar/NavBar.jsx';
 import Logo from './navbar/Logo';
 import Search from './navbar/Search.jsx';
@@ -12,21 +12,19 @@ import Loader from './Loader.jsx';
 import ErrorMessage from './ErrorMessage.jsx';
 import MovieDetails from './main/watchedMovies/MovieDetails.jsx';
 import { useMovies } from '../hooks/useMovies.js';
+import { useLocalStorageState } from '../hooks/useLocalStorageState.js';
 
 export default function App() {
   const [query, setQuery] = useState('');
   const [selectedId, setSelectedId] = useState(null);
   const { movies, isLoading, error } = useMovies(query); // Custom Hook
-  const [watched, setWatched] = useState(() =>
-    JSON.parse(localStorage.getItem('watched'))
-  );
+  const [watched, setWatched] = useLocalStorageState([], 'watched'); // Custom Hooks
 
   const handleSelectMovie = id => {
     setSelectedId(selectedId => (id === selectedId ? null : id));
   };
 
   function handleCloseSelectedMovie() {
-    // function declaration needed for hoisting
     setSelectedId(null);
   }
 
@@ -37,15 +35,6 @@ export default function App() {
   const handleDeleteWatched = id => {
     setWatched(watched => watched.filter(movie => movie.imdbID !== id));
   };
-
-  useEffect(
-    function () {
-      localStorage.setItem('watched', JSON.stringify(watched));
-    },
-    [watched]
-  );
-
-  // Custom Hook
 
   return (
     <>
