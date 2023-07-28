@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import API_KEY from '../../../config/config';
 import StarRating from '../../starRating/StarRating';
 import Loader from '../../Loader';
+import { useKey } from '../../../hooks/useKey';
 
 export default function MovieDetails({
   selectedId,
@@ -55,21 +56,8 @@ export default function MovieDetails({
     onCloseMovie();
   };
 
-  useEffect(
-    function () {
-      function callback(e) {
-        if (e.code === 'Escape') onCloseMovie();
-      }
-
-      document.addEventListener('keydown', callback);
-
-      // Cleanup Function
-      return function () {
-        document.removeEventListener('keydown', callback);
-      };
-    },
-    [onCloseMovie]
-  );
+  // Custom hook to close movie details with 'esc' key
+  useKey('Escape', onCloseMovie);
 
   useEffect(
     function () {
